@@ -1,0 +1,130 @@
+###### SD/RD numbers at time = 00000000000 [s] ######
+SD number = 6113280
+SD number density = 20.5419 [/grid]
+total aerosol number = 7.52212e+18
+total aerosol number density = 2.02208e+08 [/m^3]
+non IN aerosol number = 7.52212e+18
+non IN aerosol number density = 2.02208e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000000300 [s] ######
+SD number = 6112977
+SD number density = 20.5409 [/grid]
+total aerosol number = 7.11049e+18
+total aerosol number density = 1.91142e+08 [/m^3]
+non IN aerosol number = 7.11049e+18
+non IN aerosol number density = 1.91142e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000000600 [s] ######
+SD number = 6112744
+SD number density = 20.5401 [/grid]
+total aerosol number = 6.75733e+18
+total aerosol number density = 1.81649e+08 [/m^3]
+non IN aerosol number = 6.75733e+18
+non IN aerosol number density = 1.81649e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000000900 [s] ######
+SD number = 6112576
+SD number density = 20.5396 [/grid]
+total aerosol number = 6.45097e+18
+total aerosol number density = 1.73413e+08 [/m^3]
+non IN aerosol number = 6.45097e+18
+non IN aerosol number density = 1.73413e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000001200 [s] ######
+SD number = 6112452
+SD number density = 20.5392 [/grid]
+total aerosol number = 6.18002e+18
+total aerosol number density = 1.6613e+08 [/m^3]
+non IN aerosol number = 6.18002e+18
+non IN aerosol number density = 1.6613e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000001500 [s] ######
+SD number = 6112297
+SD number density = 20.5386 [/grid]
+total aerosol number = 5.92438e+18
+total aerosol number density = 1.59257e+08 [/m^3]
+non IN aerosol number = 5.92438e+18
+non IN aerosol number density = 1.59257e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000001800 [s] ######
+SD number = 6112149
+SD number density = 20.5381 [/grid]
+total aerosol number = 5.62253e+18
+total aerosol number density = 1.51143e+08 [/m^3]
+non IN aerosol number = 5.62253e+18
+non IN aerosol number density = 1.51143e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000002100 [s] ######
+SD number = 6111695
+SD number density = 20.5366 [/grid]
+total aerosol number = 5.32661e+18
+total aerosol number density = 1.43188e+08 [/m^3]
+non IN aerosol number = 5.32661e+18
+non IN aerosol number density = 1.43188e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000002400 [s] ######
+SD number = 6079980
+SD number density = 20.43 [/grid]
+total aerosol number = 5.11334e+18
+total aerosol number density = 1.37455e+08 [/m^3]
+non IN aerosol number = 5.11334e+18
+non IN aerosol number density = 1.37455e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000002700 [s] ######
+SD number = 6055237
+SD number density = 20.3469 [/grid]
+total aerosol number = 4.93585e+18
+total aerosol number density = 1.32684e+08 [/m^3]
+non IN aerosol number = 4.93585e+18
+non IN aerosol number density = 1.32684e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000003000 [s] ######
+SD number = 6039971
+SD number density = 20.2956 [/grid]
+total aerosol number = 4.77391e+18
+total aerosol number density = 1.28331e+08 [/m^3]
+non IN aerosol number = 4.77391e+18
+non IN aerosol number density = 1.28331e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000003300 [s] ######
+SD number = 6030808
+SD number density = 20.2648 [/grid]
+total aerosol number = 4.62309e+18
+total aerosol number density = 1.24277e+08 [/m^3]
+non IN aerosol number = 4.62309e+18
+non IN aerosol number density = 1.24277e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+
+###### SD/RD numbers at time = 00000003600 [s] ######
+SD number = 6023725
+SD number density = 20.241 [/grid]
+total aerosol number = 4.48499e+18
+total aerosol number density = 1.20564e+08 [/m^3]
+non IN aerosol number = 4.48499e+18
+non IN aerosol number density = 1.20564e+08 [/m^3]
+IN aerosol number = 0
+IN aerosol number density = 0 [/m^3]
+

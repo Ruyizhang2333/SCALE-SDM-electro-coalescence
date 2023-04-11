@@ -1,0 +1,6 @@
+nohup: 忽略输入
+ *** Start Launch System for SCALE-LES
+ *** a single comunicator
+ *** a single comunicator
+ sdm_zupper was set to minval(REAL_FZ(KE-1)) because zupper > minval(REAL_FZ(KE-
+ 1))
