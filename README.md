@@ -137,8 +137,6 @@ cd ..
 ## Plot the Time Series of Water Path and Accumulated Precipitation
 ```ruby
 cd time_series_0D
-module purge
-module load intel/2015.6.233 zlib/1.2.8 xz/5.2.4 pcre/8.40 bzip2/1.0.6 openssl/1.1.1a curl/7.63.0 R/3.4.3
 Rscript time_series_0D.R
 for i in *.pdf; do convert -density 400 $i ${i/pdf/png}; done
 for i in *.png; do display $i; done
@@ -147,8 +145,6 @@ cd ..
 ## Make a 2D Color Map of Ice Particle Distribution
 ```ruby
 cd ptl_dist_2Dmap_R
-module purge
-module load intel/2015.6.233 zlib/1.2.8 xz/5.2.4 pcre/8.40 bzip2/1.0.6 openssl/1.1.1a curl/7.63.0 R/3.4.3
 Rscript ptl_dist_2Dmap.netcdf.overlay.R
 for i in *.pdf; do convert -density 400 $i ${i/pdf/png}; done
 for i in *.png; do display $i; done
@@ -159,8 +155,6 @@ cd ..
 ## Aerosol Size Distribution (Number Density), Freezing Temperature Distribution, Droplet Size Distribution (Mass Density), and Terminal Velocities of Droplets and Ice.
 ```ruby
 cd ptl_dist_1D_R
-module purge
-module load intel/2015.6.233 zlib/1.2.8 xz/5.2.4 pcre/8.40 bzip2/1.0.6 openssl/1.1.1a curl/7.63.0 R/3.4.3
 Rscript ptl_dist_1D.netcdf.R
 less numbers.txt
 for i in *.pdf; do convert -density 400 $i ${i/pdf/png}; done
