@@ -117,7 +117,9 @@ vi contrib/SDM/sdm_coalescence.f90
 + logical,parameter :: output_kernel = .True. 
 ...
 ```
-And repeat **simulation setup**
+And repeat 
+>simulation setup
+
 ```ruby
 cd scale-les/test/case/warmbubble/2D_Lasher-trapp05_mod_sdm/cc_output
 python plot_cc_kernel.py
