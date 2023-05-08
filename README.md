@@ -1,4 +1,4 @@
-Introduction of electro-coalescence treatment of droplets SCALE-SDM 0.0-2.2.2 for reproduce the results of Zhang et al. (2023, GMD)
+Introduction of electro-coalescence treatment of droplets SCALE-SDM 0.2.5-2.3.0 for reproduce the results of Zhang et al. (2023, GMD)
 
 Author: Ruyi Zhang (ruyizhang96@gmail.com)
 
