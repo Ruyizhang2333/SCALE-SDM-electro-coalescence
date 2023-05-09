@@ -192,8 +192,8 @@ contains
     integer :: sort_freqm
     integer :: icptc, icptp
 
-    logical,parameter :: output_kernel = .false. ! Flag to output the kernel value for debug  
-    character(len=20) :: fname    ! output filename
+    logical,parameter :: output_kernel = .False. ! Flag to output the kernel value for debug  
+    character(len=80) :: fname    ! output filename
     integer           :: stat    ! Runtime status
     integer           :: FILE_SD
     integer,allocatable :: sd_itmp1(:),sd_itmp2(:),sd_itmp3(:)
@@ -377,7 +377,7 @@ contains
                tc = sort_tag0m + n
                tp = tc + sort_freqm/2
 
-               sd_r(icp(tc)) = 1.0d-6 ! fix the size as you like [m]
+               sd_r(icp(tc)) = 1.0d-5 ! fix the size as you like [m]
                sd_r(icp(tp)) = exp( log(1.0d-8)+(log(1.0d-3)-log(1.0d-8))*sd_rand(tc) )! uniform sample in log(r) [m]
              
             end do
@@ -823,16 +823,17 @@ contains
 
 !            call electro_coalescence_efficiency_coulomb(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
 !            call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+         !   call electro_coalescence_efficiency_khain(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
 
-          if ( (sd_r1 > (sd_r2*1.0d2)) .or. (sd_r2 > (sd_r1*1.0d2)) ) then
-!             call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-          else
-!             call electro_coalescence_efficiency_conducting_sphere(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-          end if
+         !  if ( (sd_r1 > (sd_r2*1.0d2)) .or. (sd_r2 > (sd_r1*1.0d2)) ) then
+         !      call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+         !  else
+         !      call electro_coalescence_efficiency_conducting_sphere(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+         !  end if
           
-          if ((sd_r1< 1.0e-7) .or. (sd_r2<1.0e-7)) then 
-          !   eff_elc = 0.0
-          end if 
+         !  if ((sd_r1< 1.0e-7) .or. (sd_r2<1.0e-7)) then 
+         !      eff_elc = 0.0
+         !  end if 
           eff_elc = 0.0        
 
           crate_elc = ONE_PI* (sd_r1+sd_r2)**2 * abs(sd_vz1-sd_vz2) * eff_elc
@@ -1295,8 +1296,8 @@ contains
         real(RP) :: k_elc ! constant for collection efficiency of electrostatic [Nm^2/C^2]
         real(RP) :: sd_q1 ! electrical charge of particle 1 [C]
         real(RP) :: sd_q2 ! electrical charge of particle 2 [C]
-        real(RP) :: sd_rl ! radius of particle 1 [C]
-        real(RP) :: sd_rs ! radius of particle 2 [C]
+        real(RP) :: sd_rl ! radius of particle 1 [m]
+        real(RP) :: sd_rs ! radius of particle 2 [m]
   
         real(RP) :: Cc1  ! Cunningham number of particle 1
         real(RP) :: Cc2  ! Cunningham number of particle 2
@@ -1406,12 +1407,19 @@ contains
        	sd_qs = alpha*0.83D-6*(2.D0*sd_rs)**2
 
 	! limiter to make it larger than 1e
-       	if ((sd_rl<50.0D-6) .and. (sd_ql>40.0*1.6e-19)) then
-       	  ! sd_ql = 40.0*1.6D-19
+       	! if ((sd_rl<50.0D-6) .and. (sd_ql>40.0*1.6e-19)) then
+       	!    sd_ql = 40.0*1.6D-19
+       	! end if
+
+       	! if ((sd_rs < 50.0D-06) .and. (sd_qs<1.0*1.6e-19)) then
+         !   sd_qs = 1.0*1.6D-19
+      	! end if
+         if ((sd_ql < 1.0* 1.6D-19) ) then
+           sd_ql = 1.0*1.6D-19
        	end if
 
-       	if ((sd_rs < 50.0D-06) .and. (sd_qs<5.0*1.6e-19)) then
-          ! sd_qs = 5.0*1.6D-19
+       	if ((sd_qs < 1.0*1.6D-19) ) then
+           sd_qs = 1.0*1.6D-19
       	end if
 
         ! Cunningham correction factor   
@@ -1584,7 +1592,7 @@ contains
       subroutine electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
         ! calculate the image charge electro force efficiency
         use m_sdm_common, only: ONE_PI
-        real(RP), intent(out) :: eff_elc    ! Conducting sphere electro force coalesence efficiency [] 
+        real(RP), intent(out) :: eff_elc    ! image charge electro force coalesence efficiency [] 
         real(RP), intent(in)  :: sd_r1      ! radius of particle 1 [m]
         real(RP), intent(in)  :: sd_r2      ! radius of particle 1 [m]
         real(RP), intent(in)  :: sd_vz1     ! terminal velocity of particle 1 [m/2] 
@@ -1615,12 +1623,12 @@ contains
        	sd_qs = alpha*0.83D-6*(2.D0*sd_rs)**2
 
 	! limiter to make it larger than 1e
-       	if ((sd_ql < 5.0* 1.6D-19) .and. (sd_rl>1.0e-7)) then
-           sd_ql = 5.0*1.6D-19
+       	if ((sd_ql < 1.0* 1.6D-19) ) then
+           sd_ql = 1.0*1.6D-19
        	end if
 
-       	if ((sd_qs < 5.0*1.6D-19) .and. (sd_rs>1.0e-7)) then
-           sd_qs = 5.0*1.6D-19
+       	if ((sd_qs < 1.0*1.6D-19) ) then
+           sd_qs = 1.0*1.6D-19
       	end if
 
        ! Cunningham correction factor
@@ -1634,9 +1642,9 @@ contains
 !       rn_elc   =(sd_rs/sd_rl)*(1.D0+sr_elc*(1e-7/sd_rs)*(sd_rl/sd_rs)+sd_rl/sd_rs)
        rn_elc=(sd_rs/sd_rl)*(1.D0+sr_elc*(sd_rl/sd_rs/2.0)+sd_rl/sd_rs)
 
-       if ((sd_ql> sd_qs*100.) .or. (sd_qs>sd_ql*100.)) then
+      !  if ((sd_ql> sd_qs*100.) .or. (sd_qs>sd_ql*100.)) then
 !          rn_elc=(sd_rs/sd_rl)*(1.D0+sr_elc*(10**((log10(sd_rl/sd_rs)**1.2)))+sd_rl/sd_rs)
-       end if
+      !  end if
 
        Fimg = ((4.0d0*9.0d9 * (sd_qs**2)*rn_elc/((rn_elc**2 -1.0d0)**2))&
             &                + 4.0d0*(9.0d9* sd_qs * sd_ql / rn_elc**2) &
@@ -1650,4 +1658,63 @@ contains
        return
      end subroutine electro_coalescence_efficiency_image_charge
 !***********************************************************************
+   subroutine electro_coalescence_efficiency_khain(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+        ! calculate the image charge electro force efficiency (Khain et. al. 2004 )
+        use m_sdm_common, only: ONE_PI
+        real(RP), intent(out) :: eff_elc    ! image charge electro force coalesence efficiency [] 
+        real(RP), intent(in)  :: sd_r1      ! radius of particle 1 [m]
+        real(RP), intent(in)  :: sd_r2      ! radius of particle 1 [m]
+        real(RP), intent(in)  :: sd_vz1     ! terminal velocity of particle 1 [m/2] 
+        real(RP), intent(in)  :: sd_vz2     ! terminal velocity of particle 2 [m/2] 
+        real(RP), intent(in)  :: lmd_crs    ! air mean free path [m]
+        real(RP), intent(in)  :: vis_crs    ! dynamic viscosity [Pa s]
+
+        real(RP) :: sd_rl     ! radius of larger particle [m]
+        real(RP) :: sd_rs     ! radius of smaller particle [m]
+        real(RP) :: sd_ql     ! electrical charge of larger particle [C]
+        real(RP) :: sd_qs     ! electrical charge of smaller particle [C]
+        real(RP) :: Ccl       ! Cunningham number of larger particle
+        real(RP) :: Ccs       ! Cunningham number of smaller particle
+
+        real(RP) sr_elc,rn_elc
+        real(RP) Fkh    !force calculation
+
+	if (sd_r1 > sd_r2) then
+           sd_rl = sd_r1
+           sd_rs = sd_r2
+        else
+           sd_rl = sd_r2
+           sd_rs = sd_r1
+        end if
+   ! Cunningham correction factor
+         Ccl = 1.0D0+2.0D0*lmd_crs/(2.0D0*sd_rl)*(1.257D0+0.4D0*exp(-1.1D0*(2.0D0*sd_rl)/2.0D0/lmd_crs))
+         Ccs = 1.0D0+2.0D0*lmd_crs/(2.0D0*sd_rs)*(1.257D0+0.4D0*exp(-1.1D0*(2.0D0*sd_rs)/2.0D0/lmd_crs))
+
+	! calculate the charge amount (Andronache 2004)
+       	sd_ql = alpha*0.83D-6*(2.D0*sd_rl)**2
+       	sd_qs = alpha*0.83D-6*(2.D0*sd_rs)**2
+	! limiter to make it larger than 1e
+       	if ((sd_ql < 1.0* 1.6D-19) ) then
+           sd_ql = 1.0*1.6D-19
+       	end if
+
+       	if ((sd_qs < 1.0*1.6D-19) ) then
+           sd_qs = 1.0*1.6D-19
+      	end if
+       sr_elc=0.01D0    !s/sd_rs, parameter to determine the separation distance of two droplets
+       rn_elc=(sd_rs/sd_rl)*(1.D0+sr_elc*(sd_rl/sd_rs/2.0)+sd_rl/sd_rs)
+
+       Fkh = abs(sd_ql*sd_qs/(4*ONE_PI*8.854D-12*rn_elc**2)+(1./(4*ONE_PI*8.854D-12)) &
+                        *(sd_ql**2*sd_rs*(1./rn_elc**3-rn_elc/(rn_elc**2-sd_rs**2)**2)&
+                        +sd_qs**2*sd_rl*(1/rn_elc**2-rn_elc/(rn_elc**2-sd_rl**2)**2)&
+                        +sd_ql*sd_qs*sd_rl*sd_rs*(1./rn_elc**4+1./(rn_elc**2-sd_rl**2-sd_rs**2)**2&
+                        -1./(rn_elc**2-sd_rl**2)**2-1./(rn_elc**2-sd_rs**2)**2)))
+       if (Fkh<0) then
+           Fkh = 0
+       end if
+
+       eff_elc = 1.0D0 * Fkh /(3.D0*ONE_PI * vis_crs * abs(sd_vz1 - sd_vz2)) * (Ccl/sd_rl + Ccs/sd_rs)
+        
+       return
+   end subroutine electro_coalescence_efficiency_khain
 end module m_sdm_coalescence
