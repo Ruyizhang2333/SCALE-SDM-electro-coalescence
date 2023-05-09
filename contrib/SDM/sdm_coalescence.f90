@@ -1616,11 +1616,11 @@ contains
 
 	! limiter to make it larger than 1e
        	if ((sd_ql < 5.0* 1.6D-19) .and. (sd_rl>1.0e-7)) then
-           sd_ql = 1.0*1.6D-19
+           sd_ql = 5.0*1.6D-19
        	end if
 
        	if ((sd_qs < 5.0*1.6D-19) .and. (sd_rs>1.0e-7)) then
-           sd_qs = 1.0*1.6D-19
+           sd_qs = 5.0*1.6D-19
       	end if
 
        ! Cunningham correction factor
