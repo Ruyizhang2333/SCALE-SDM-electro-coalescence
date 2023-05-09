@@ -1295,8 +1295,8 @@ contains
         real(RP) :: k_elc ! constant for collection efficiency of electrostatic [Nm^2/C^2]
         real(RP) :: sd_q1 ! electrical charge of particle 1 [C]
         real(RP) :: sd_q2 ! electrical charge of particle 2 [C]
-        real(RP) :: sd_rl ! electrical charge of particle 1 [C]
-        real(RP) :: sd_rs ! electrical charge of particle 2 [C]
+        real(RP) :: sd_rl ! radius of particle 1 [C]
+        real(RP) :: sd_rs ! radius of particle 2 [C]
   
         real(RP) :: Cc1  ! Cunningham number of particle 1
         real(RP) :: Cc2  ! Cunningham number of particle 2
@@ -1406,12 +1406,12 @@ contains
        	sd_qs = alpha*0.83D-6*(2.D0*sd_rs)**2
 
 	! limiter to make it larger than 1e
-       	if ((sd_rs<50.0D-6) .and. (sd_qs>40.0*1.6e-19)) then
-       	   sd_ql = 40.0*1.6D-19
+       	if ((sd_rl<50.0D-6) .and. (sd_ql>40.0*1.6e-19)) then
+       	  ! sd_ql = 40.0*1.6D-19
        	end if
 
        	if ((sd_rs < 50.0D-06) .and. (sd_qs<5.0*1.6e-19)) then
-           sd_qs = 5.0*1.6D-19
+          ! sd_qs = 5.0*1.6D-19
       	end if
 
         ! Cunningham correction factor   
