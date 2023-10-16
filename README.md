@@ -170,23 +170,12 @@ for i in *.pdf; do convert -density 400 $i ${i/pdf/png}; done
 for i in *.png; do display $i; done
 cd ..
 ```
-## Make a 2D Color Map of Ice Particle Distribution
-```ruby
-cd ptl_dist_2Dmap_R
-Rscript ptl_dist_2Dmap.netcdf.overlay.R
-for i in *.pdf; do convert -density 400 $i ${i/pdf/png}; done
-for i in *.png; do display $i; done
-animate -delay 20 *.png
-for i in aspect density mass term_vel_ice ; do convert  -delay 20 -loop 0 ${i}.*.png ${i}.gif ; done
-cd ..
-```
-## Aerosol Size Distribution (Number Density), Freezing Temperature Distribution, Droplet Size Distribution (Mass Density), and Terminal Velocities of Droplets and Ice.
+## Droplet Size Distribution (Mass Density).
 ```ruby
 cd ptl_dist_1D_R
 Rscript ptl_dist_1D.netcdf.R
-less numbers.txt
 for i in *.pdf; do convert -density 400 $i ${i/pdf/png}; done
 for i in *.png; do display $i; done
-for i in mass_dens_drop num_dens_amsul prob_dens_freezing_temp term_vel_drop term_vel_ice xz_SD; do convert  -delay 20 -loop 0 ${i}.*.png ${i}.gif; done
+for i in mass_dens_drop; do convert  -delay 20 -loop 0 ${i}.*.png ${i}.gif; done
 cd ..
 ```
