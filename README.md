@@ -101,6 +101,8 @@ sh clean.sh
 
 ## Compile
 ```ruby
+module purge
+module load intel/19.1.3 mpt hdf5/1.12.0 netcdf/4.7.4
 cd scale-les/test/case/warmbubble/2D_Lasher-trapp05_mod_sdm
 make ENABLE_SDM=T
 ```
@@ -123,6 +125,7 @@ vi iwaya_run.sh
 
 source /etc/profile.d/modules.sh
 cd ${PBS_O_WORKDIR}
+module purge
 module load intel/19.1.3 mpt hdf5/1.12.0 netcdf/4.7.4
 
 # run
