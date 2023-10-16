@@ -33,7 +33,7 @@ vi sysdep/Makedef.Linux64-intel-mpich2
 +NETCDF_LIBS    ?= $(NETCDF_LIB) $(HDF5_LIB) -lm -lz
 ...
 ```
-## Turn on the conducting spheres treatment option
+## Set charging rate(default is zero)
 ```ruby
 vi contrib/SDM/sdm_coalescence.f90
 ...
@@ -41,7 +41,35 @@ vi contrib/SDM/sdm_coalescence.f90
 + real(RP) :: alpha=0.2D0 ! coefficient to decide the charge amount (Andronache 2004)
 ...
 ```
+[!NOTE]
+When charging rate is not equal to 0, please turn on only one electro-coalescence treatment.
+## Turn on the Coulomb force(CB) treatment option
 ```ruby
+vi contrib/SDM/sdm_coalescence.f90
+...
+- !call electro_coalescence_efficiency_coulomb(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
++ call electro_coalescence_efficiency_coulomb(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+...
+```
+## Turn on the Image force(IM) treatment option
+```ruby
+vi contrib/SDM/sdm_coalescence.f90
+...
+- !call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
++ call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+...
+```
+## Turn on the Khain et al.2004(Khain04) treatment option
+```ruby
+vi contrib/SDM/sdm_coalescence.f90
+...
+- !call electro_coalescence_efficiency_khain(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
++ call electro_coalescence_efficiency_khain(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+...
+```
+## Turn on the Conducting Spheres(CS) treatment option
+```ruby
+vi contrib/SDM/sdm_coalescence.f90
 ...
 - !if ( (sd_r1 > (sd_r2*1.0d2)) .or. (sd_r2 > (sd_r1*1.0d2)) ) then
 - !    call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
