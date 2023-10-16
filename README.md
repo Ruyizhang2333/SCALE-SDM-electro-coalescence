@@ -123,7 +123,7 @@ vi iwaya_run.sh
 
 source /etc/profile.d/modules.sh
 cd ${PBS_O_WORKDIR}
-module load intel/17.0.0 mpt hdf5/1.8.12 netcdf/4.4.1
+module load intel/19.1.3 mpt hdf5/1.12.0 netcdf/4.7.4
 
 # run
 mpiexec_mpt dplace -s1 ./scale-les_init init.conf || exit
@@ -156,7 +156,7 @@ python plot_cc_kernel.py
 ```ruby
 cd QHYD_2Dplot
 module purge
-module load intel/2015.6.233 zlib/1.2.8 xz/5.2.4 pcre/8.40 bzip2/1.0.6 openssl/1.1.1a curl/7.63.0 R/3.4.3
+module load intel/19.1.3 mpt hdf5/1.12.0 netcdf/4.7.4 R/4.1.0
 Rscript QHYD_2Dplot.R
 for i in *.pdf ; do convert -density 400 $i ${i/pdf/png} ; done
 for i in QHYD_overlay ; do convert -delay 20 -loop 0 ${i}.*.png ${i}.gif ; done
