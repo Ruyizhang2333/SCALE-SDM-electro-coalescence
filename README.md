@@ -41,8 +41,8 @@ vi contrib/SDM/sdm_coalescence.f90
 + real(RP) :: alpha=0.2D0 ! coefficient to decide the charge amount (Andronache 2004)
 ...
 ```
-[!NOTE]
-When charging rate is not equal to 0, please turn on only one electro-coalescence treatment.
+> [!NOTE]
+> When charging rate is not equal to 0, please turn on only one electro-coalescence treatment.
 ## Turn on the Coulomb force(CB) treatment option
 ```ruby
 vi contrib/SDM/sdm_coalescence.f90
