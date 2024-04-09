@@ -111,6 +111,7 @@
 !! @li      2019-01-12 (S.Shima) [add] momentum coupling (rhow)
 !! @li      2019-01-12 (S.Shima) [mod] dry air density -> moist air density
 !! @li      2019-09-30 (S.Shima) [mod] to output the collision efficiency
+!! @li      2024-04-09 (R.Zhang) [mod] Add 'sdm_elecol'&'sdm_elerate' flag to control electro_coalescence scheme
 !<  
 !-------------------------------------------------------------------------------
 #include "macro_thermodyn.h"
@@ -257,7 +258,9 @@ contains
        sdm_dmpnskip,        & 
        sdm_dmpitvb,         & 
        sdm_dmpitvl,         &
-       sdm_dmpsdsiz
+       sdm_dmpsdsiz,        &
+       sdm_elecol,          &
+       sdm_elerate
 
 !    real(RP) :: dtevl
 !    real(RP) :: n0, dry_r
@@ -2119,7 +2122,7 @@ contains
 
             else
                call sdm_coales(sdm_colkrnl,sdm_colbrwn,sdm_aslset,         &
-                            sdm_aslrho,sdm_dtcol,                       &
+                            sdm_aslrho,sdm_dtcol,sdm_elecol,sdm_elerate,   &
                             pres_scale, t_scale, DENS,                  &
                             zph_crs,                                    &
                             ni_sdm,nj_sdm,nk_sdm,sd_num,sd_numasl,      &

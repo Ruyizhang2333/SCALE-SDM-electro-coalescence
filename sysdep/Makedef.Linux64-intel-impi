@@ -7,17 +7,17 @@
 FFLAGS_FAST  = -fpp -m64 -O3 -xHost                 \
                -assume byterecl -convert big_endian \
                -fp-model source                     \
-               -mcmodel=medium -heap-arrays
+               -mcmodel=medium -heap-arrays -lmpi
 
 FFLAGS_DEBUG = -fpp -m64 -O0                        \
                -assume byterecl -convert big_endian \
                -fpe0 -fp-model source               \
                -check all -warn all -g -traceback   \
-               -mcmodel=medium -heap-arrays         \
+               -mcmodel=medium -heap-arrays  -lmpi  \
                -assume nobuffered_io                \
                -DDEBUG
 
-FC     = mpiifort
+FC     = ifort
 SFC    = ifort
 FFLAGS = $(FFLAGS_FAST)
 #FFLAGS = $(FFLAGS_DEBUG)
@@ -30,18 +30,18 @@ endif
 
 MODDIROPT ?= -module
 
-CC     = mpiicc
-CFLAGS = -O3 -xHost -ip -ftz -mcmodel=medium -shared-intel
+CC     = icc
+CFLAGS = -O3 -xHost -ip -ftz -mcmodel=medium -shared-intel -lmpi
 
 LD      = $(FC)
 LDFLAGS = $(FFLAGS)
 
 ###### NetCDF library
-NETCDF_INCLUDE ?= -I$(NETCDF4)/include
-NETCDF_LIBS    ?= -L$(NETCDF4)/lib -L$(HDF5)/lib64 -lnetcdff -lnetcdf -lhdf5_hl -lhdf5 -lm -lz
+NETCDF_INCLUDE ?= $(NETCDF_INC) -lnetcdf $(NETCDF_FORTRAN_INC) -lnetcdff
+NETCDF_LIBS    ?= $(NETCDF_LIB) -lnetcdf $(NETCDF_FORTRAN_LIB) -lnetcdff -L/home/s274s011/local/hdf5/1.14.3/intel/2022.3.1/lib/ -lhdf5_hl -lhdf5 -lm -lz
 
 ###### Lapack
-LAPACK_LIBS    ?= -mkl=sequential
+LAPACK_LIBS    ?= -qmkl=sequential
 
 ##### for frontend
 INSTALL = install

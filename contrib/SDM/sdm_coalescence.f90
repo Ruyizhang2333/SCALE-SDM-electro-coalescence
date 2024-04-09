@@ -21,6 +21,7 @@
 !! @li      2019-09-29 (S.Shima) [add] electro coalescence kernels
 !! @li      2019-09-30 (S.Shima) [mod] electro_coalescence_efficiency_coulomb
 !! @li      2019-09-30 (S.Shima) [mod] to output the collision efficiency
+!! @li      2024-04-09 (R.Zhang) [mod] Add 'sdm_elecol'&'sdm_elerate' flag to control electro_coalescence scheme
 !!
 !<
 !-------------------------------------------------------------------------------
@@ -36,7 +37,7 @@ module m_sdm_coalescence
 contains
   subroutine sdm_coales(sdm_colkrnl,sdm_colbrwn,               &
                         sdm_aslset,sdm_aslrho,                 &
-                        sdm_dtcol,            &
+                        sdm_dtcol,sdm_elecol,sdm_elerate,      &
                         pres_scale, t_scale,DENS,              &
                         zph_crs,                &
                         ni_sdm,nj_sdm,nk_sdm,sd_num,sd_numasl, &
@@ -74,6 +75,8 @@ contains
     integer, intent(in) :: sdm_aslset    ! Control flag to set species and way of chemical material as water-soluble aerosol
     real(RP),intent(in) :: sdm_aslrho(20)! User specified density of chemical material contained as water-soluble aerosol in super droplets
     real(RP), intent(in) :: sdm_dtcol   ! tims step of {stochastic coalescence} process
+    integer, intent(in) :: sdm_elecol
+    real(RP),intent(in) :: sdm_elerate
     real(RP), intent(in) :: pres_scale(KA,IA,JA)  ! Pressure
     real(RP), intent(in) :: t_scale(KA,IA,JA)    ! Temperature
     real(RP), intent(in) :: DENS(KA,IA,JA)        !! Density [kg/m3]
@@ -821,21 +824,32 @@ contains
 
           lmd_crs = (2.d0*vis_crs)/(p_crs*dtmp)
 
-!            call electro_coalescence_efficiency_coulomb(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-!            call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-         !   call electro_coalescence_efficiency_khain(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+         if (sdm_elecol /= 0) then
+            alpha = sdm_elerate
+            if ((sd_r1 < 1.0e-7) .or. (sd_r2 < 1.0e-7)) then 
+               eff_elc = 0.0
+            else
+               select case (sdm_elecol)
+               case (1)
+                     call electro_coalescence_efficiency_coulomb(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+               case (2)
+                     call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+               case (3)
+                     call electro_coalescence_efficiency_khain(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+               case (4)
+                     if ( (sd_r1 > (sd_r2 * 1.0d2)) .or. (sd_r2 > (sd_r1 * 1.0d2)) ) then
+                        call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+                     else
+                        call electro_coalescence_efficiency_conducting_sphere(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
+                     end if
+               end select
+               print *, 'Updated alpha:', alpha
+            end if
+         else
+            eff_elc = 0.0
+         end if
 
-         !  if ( (sd_r1 > (sd_r2*1.0d2)) .or. (sd_r2 > (sd_r1*1.0d2)) ) then
-         !      call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-         !  else
-         !      call electro_coalescence_efficiency_conducting_sphere(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-         !  end if
           
-         !  if ((sd_r1< 1.0e-7) .or. (sd_r2<1.0e-7)) then 
-         !      eff_elc = 0.0
-         !  end if 
-          eff_elc = 0.0        
-
           crate_elc = ONE_PI* (sd_r1+sd_r2)**2 * abs(sd_vz1-sd_vz2) * eff_elc
  
          

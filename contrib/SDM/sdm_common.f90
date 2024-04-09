@@ -38,6 +38,7 @@
 !! @li      2018-06-30 (S.Shima) [add] rime mass and number of monomers as SD attributes
 !! @li      2019-01-09 (S.Shima) [add] sdm_fctr2multi
 !! @li      2019-01-11 (S.Shima) [mod] default value of sdm_mvexchg
+!! @li      2024-04-09 (R.Zhang) [mod] Add 'sdm_elecol'&'sdm_elerate' flag to control electro_coalescence scheme
 !!
 !< 
 !-------------------------------------------------------------------------------
@@ -458,6 +459,8 @@ module m_sdm_common
   real(RP), save :: sdm_dmpitvb  = 0.e0  ! Time interval of binary output of all droplets [s]
   real(RP), save :: sdm_dmpitvl  = 0.e0  ! Time interval of binary output of large droplets [s]
   real(RP), save :: sdm_dmpsdsiz = 0.e0  ! Threshold radius to store large super droplets in binary format [m]
+  integer, save :: sdm_elecol = 0        ! Flag for electro coalescence scheme (0: No Charge(default), 1: Columb force, 2: Image force, 3: Khain04, 4: Conducting sphere)
+  real(RP), save :: sdm_elerate  = 0.3d0 ! Factor for droplets charging rate, used when sdm_elecol!=0 
 
   data sdm_dtcmph / 0.1_RP,0.1_RP,0.1_RP,0.1_RP,0.1_RP /
   data sdm_calvar / .false.,.false.,.false.,.false.,.false. /
