@@ -842,8 +842,7 @@ contains
                      else
                         call electro_coalescence_efficiency_conducting_sphere(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
                      end if
-               end select
-               print *, 'Updated alpha:', alpha
+               end select               
             end if
          else
             eff_elc = 0.0
