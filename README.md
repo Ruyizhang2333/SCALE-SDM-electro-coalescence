@@ -37,14 +37,14 @@ vi sysdep/Makedef.Linux64-intel-mpich2
 ```ruby
 vi scale-les/test/case/warmbubble/2D_Lasher-trapp05_mod_sdm/run.conf
 ...
-- sdm_elecol	 = 0, ! Flag for electro coalescence scheme, 0: No Charge(default), 1: Columb force, 2: Image force, 3: Khain04, 4: Conducting sphere
+- sdm_elecol	 = 0, ! Flag for electro coalescence scheme, 0: No Charge(default), 1: Coulomb force, 2: Image force, 3: Khain04, 4: Conducting sphere
 - sdm_elerate  = 0.0d0, ! Factor for droplets charging rate, used when sdm_elecol!=0 
-+ sdm_elecol	 = 4, ! Flag for electro coalescence scheme, 0: No Charge(default), 1: Columb force, 2: Image force, 3: Khain04, 4: Conducting sphere
++ sdm_elecol	 = 4, ! Flag for electro coalescence scheme, 0: No Charge(default), 1: Coulomb force, 2: Image force, 3: Khain04, 4: Conducting sphere
 + sdm_elerate  = 0.3d0, ! Factor for droplets charging rate (0-7), used when sdm_elecol!=0 
 ...
 ```
 > [!NOTE]
-> Use sdm_elecol to select electro coalescence scheme, 0: No Charge(default), 1: Columb force, 2: Image force, 3: Khain04, 4: Conducting sphere, note that if sdm_elecol not equal 0, must set sdm_elerate to make electro-coalescence work.
+> Use sdm_elecol to select electro coalescence scheme, 0: No Charge(default), 1: Coulomb force, 2: Image force, 3: Khain04, 4: Conducting sphere, note that if sdm_elecol not equal 0, must set sdm_elerate to make electro-coalescence work.
 
 ## Clean 
 ```ruby
