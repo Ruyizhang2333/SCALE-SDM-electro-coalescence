@@ -29,68 +29,22 @@ vi sysdep/Makedef.Linux64-intel-mpich2
 ...
 -NETCDF_INCLUDE ?= -I$(NETCDF3)/include
 -NETCDF_LIBS    ?= -L$(NETCDF3)/lib -lnetcdff -lnetcdf
-+NETCDF_INCLUDE ?= $(NETCDF_INC)
-+NETCDF_LIBS    ?= $(NETCDF_LIB) $(HDF5_LIB) -lm -lz
++NETCDF_INCLUDE ?= $(NETCDF_INC) -lnetcdf $(NETCDF_FORTRAN_INC) -lnetcdff
++NETCDF_LIBS    ?= $(NETCDF_LIB) -lnetcdf $(NETCDF_FORTRAN_LIB) -lnetcdff $(HFD5_LIB) -lhdf5_hl -lhdf5 -lm -lz
 ...
 ```
-## Set charging rate(default is zero)
+## Turn on electro-coalescence scheme and Set charging rate(default is zero)
 ```ruby
-vi contrib/SDM/sdm_coalescence.f90
+vi scale-les/test/case/warmbubble/2D_Lasher-trapp05_mod_sdm/run.conf
 ...
-- real(RP) :: alpha=0.0D0 ! coefficient to decide the charge amount (Andronache 2004)
-+ real(RP) :: alpha=0.2D0 ! coefficient to decide the charge amount (Andronache 2004)
+- sdm_elecol	 = 0, ! Flag for electro coalescence scheme, 0: No Charge(default), 1: Columb force, 2: Image force, 3: Khain04, 4: Conducting sphere
+- sdm_elerate  = 0.0d0, ! Factor for droplets charging rate, used when sdm_elecol!=0 
++ sdm_elecol	 = 4, ! Flag for electro coalescence scheme, 0: No Charge(default), 1: Columb force, 2: Image force, 3: Khain04, 4: Conducting sphere
++ sdm_elerate  = 0.3d0, ! Factor for droplets charging rate (0-7), used when sdm_elecol!=0 
 ...
 ```
 > [!NOTE]
-> When charging rate is not equal to 0, please turn on only one electro-coalescence treatment.
-## Turn on the Coulomb force(CB) treatment option
-```ruby
-vi contrib/SDM/sdm_coalescence.f90
-...
-- !call electro_coalescence_efficiency_coulomb(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-+ call electro_coalescence_efficiency_coulomb(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-...
-```
-## Turn on the Image force(IM) treatment option
-```ruby
-vi contrib/SDM/sdm_coalescence.f90
-...
-- !call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-+ call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-...
-```
-## Turn on the Khain et al.2004(Khain04) treatment option
-```ruby
-vi contrib/SDM/sdm_coalescence.f90
-...
-- !call electro_coalescence_efficiency_khain(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-+ call electro_coalescence_efficiency_khain(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-...
-```
-## Turn on the Conducting Spheres(CS) treatment option
-```ruby
-vi contrib/SDM/sdm_coalescence.f90
-...
-- !if ( (sd_r1 > (sd_r2*1.0d2)) .or. (sd_r2 > (sd_r1*1.0d2)) ) then
-- !    call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-- !else
-- !    call electro_coalescence_efficiency_conducting_sphere(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-- !end if
-- !if ((sd_r1< 1.0e-7) .or. (sd_r2<1.0e-7)) then
-- !    eff_elc = 0.0
-- !end if
--  eff_elc = 0.0
-+ if ( (sd_r1 > (sd_r2*1.0d2)) .or. (sd_r2 > (sd_r1*1.0d2)) ) then
-+     call electro_coalescence_efficiency_image_charge(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-+ else
-+     call electro_coalescence_efficiency_conducting_sphere(eff_elc,sd_r1,sd_r2,sd_vz1,sd_vz2,lmd_crs,vis_crs)
-+ end if
-+ if ((sd_r1< 1.0e-7) .or. (sd_r2<1.0e-7)) then
-+     eff_elc = 0.0
-+ end if
-+ ! eff_elc = 0.0
-...
-```
+> Use sdm_elecol to select electro coalescence scheme, 0: No Charge(default), 1: Columb force, 2: Image force, 3: Khain04, 4: Conducting sphere, note that if sdm_elecol not equal 0, must set sdm_elerate to make electro-coalescence work.
 
 ## Clean 
 ```ruby
